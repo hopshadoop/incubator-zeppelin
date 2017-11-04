@@ -65,6 +65,7 @@
     <module>hbase</module>
     <module>pig</module>
     <module>jdbc</module>
+    <module>hops-hive</module>
     <module>file</module>
     <module>flink</module>
     <module>ignite</module>
@@ -335,8 +336,9 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${plugin.compiler.version}</version>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>1.8</source>
+          <target>1.8</target>
+          <compilerArgument>-proc:none</compilerArgument>
         </configuration>
       </plugin>
 
@@ -935,6 +937,7 @@
             <excludes>
               <exclude>**/*.keywords</exclude>
               <exclude>reports/**</exclude>
+              <exclude>lib/**</exclude>
               <exclude>**/.idea/</exclude>
               <exclude>**/*.iml</exclude>
               <exclude>.git/</exclude>
