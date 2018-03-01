@@ -30,18 +30,36 @@ function BaseUrlService() {
     return port;
   };
 
+    const getCookie = function (cname) {
+	let name = cname + '='
+	let ca = document.cookie.split(';')
+	for (let i = 0; i < ca.length; i++) {
+	    let c = ca[i]
+	    while (c.charAt(0) === ' ') {
+		c = c.substring(1)
+	    }
+	    if (c.indexOf(name) === 0) {
+		return c.substring(name.length, c.length)
+	    }
+	}
+	return ''
+    }
+    
+    
   this.getWebsocketUrl = function() {
     let wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
     return wsProtocol + '//' + location.hostname + ':' + this.getPort() +
-      skipTrailingSlash(location.pathname) + '/ws';
+	  '/hopsworks-api/zeppelin/ws/' + getCookie('projectID');
   };
 
   this.getBase = function() {
-    return location.protocol + '//' + location.hostname + ':' + this.getPort() + location.pathname;
+    return location.protocol + '//' + location.hostname + ':' + this.getPort() +
+	  '/hopsworks-api/zeppelin/ws/' + getCookie('projectID');
+      
   };
 
   this.getRestApiBase = function() {
-    return skipTrailingSlash(this.getBase()) + '/api';
+    return skipTrailingSlash(this.getBase());
   };
 
   const skipTrailingSlash = function(path) {
