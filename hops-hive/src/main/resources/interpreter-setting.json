@@ -1,0 +1,60 @@
+[
+  {
+    "group": "hopshive",
+    "name": "hopshive",
+    "className": "org.apache.zeppelin.hopshive.HopsHiveInterpreter",
+    "properties": {
+      "default.url": {
+        "envName": null,
+        "propertyName": "default.url",
+        "defaultValue": "jdbc:hive2://locahost:5432/",
+        "description": "The JDBC URL for the HiveServer.",
+        "type": "string"
+      },
+      "default.completer.ttlInSeconds": {
+        "envName": null,
+        "propertyName": "default.completer.ttlInSeconds",
+        "defaultValue": "120",
+        "description": "Time to live sql completer in seconds (-1 to update everytime, 0 to disable update)"
+      },
+      "default.completer.schemaFilters": {
+        "envName": null,
+        "propertyName": "default.completer.schemaFilters",
+        "defaultValue": "",
+        "description": "Сomma separated schema (schema = catalog = database) filters to get metadata for completions. Supports '%' symbol is equivalent to any set of characters. (ex. prod_v_%,public%,info)",
+        "type": "textarea"
+      },
+      "default.splitQueries": {
+        "envName": null,
+        "propertyName": "default.splitQueries",
+        "defaultValue": "false",
+        "description": "Each query is executed apart and returns the result"
+      },
+      "common.max_count": {
+        "envName": null,
+        "propertyName": "common.max_count",
+        "defaultValue": "1000",
+        "description": "Max number of SQL result to display.",
+        "type": "number"
+      },
+      "zeppelin.jdbc.concurrent.use": {
+        "envName": null,
+        "propertyName": "zeppelin.hopshive.concurrent.use",
+        "defaultValue": true,
+        "description": "Use parallel scheduler",
+        "type": "checkbox"
+      },
+      "zeppelin.jdbc.concurrent.max_connection": {
+        "envName": null,
+        "propertyName": "zeppelin.hopshive.concurrent.max_connection",
+        "defaultValue": "10",
+        "description": "Number of concurrent execution",
+        "type": "number"
+      }
+    },
+    "editor": {
+      "language": "sql",
+      "editOnDblClick": false
+    }
+  }
+]

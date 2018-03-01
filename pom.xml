@@ -65,6 +65,7 @@
     <module>hbase</module>
     <module>pig</module>
     <module>jdbc</module>
+    <module>hops-hive</module>
     <module>file</module>
     <module>flink</module>
     <module>ignite</module>
@@ -331,6 +332,7 @@
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
+          <compilerArgument>-proc:none</compilerArgument>
         </configuration>
       </plugin>
 
@@ -944,6 +946,7 @@
             <excludes>
               <exclude>**/*.keywords</exclude>
               <exclude>reports/**</exclude>
+              <exclude>lib/**</exclude>
               <exclude>**/.idea/</exclude>
               <exclude>**/*.iml</exclude>
               <exclude>.git/</exclude>
