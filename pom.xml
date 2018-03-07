@@ -24,7 +24,7 @@
   <groupId>org.apache.zeppelin</groupId>
   <artifactId>zeppelin</artifactId>
   <packaging>pom</packaging>
-  <version>0.8.0-SNAPSHOT</version>
+  <version>0.9.0-SNAPSHOT</version>
   <name>Zeppelin</name>
   <description>Zeppelin project</description>
   <url>http://zeppelin.apache.org</url>
@@ -52,10 +52,10 @@
   <inceptionYear>2013</inceptionYear>
 
   <modules>
+    <module>interpreter-parent</module>
     <module>zeppelin-interpreter</module>
     <module>zeppelin-zengine</module>
     <module>zeppelin-display</module>
-    <module>spark-dependencies</module>
     <module>groovy</module>
     <module>spark</module>
     <module>markdown</module>
@@ -78,6 +78,7 @@
     <module>alluxio</module>
     <module>scio</module>
     <module>neo4j</module>
+    <module>sap</module>
     <module>zeppelin-web</module>
     <module>zeppelin-server</module>
     <module>zeppelin-jupyter</module>
@@ -86,6 +87,7 @@
 
   <properties>
     <!-- language versions -->
+    <java.version>1.8</java.version>
     <scala.version>2.10.5</scala.version>
     <scala.binary.version>2.10</scala.binary.version>
     <scalatest.version>2.2.4</scalatest.version>
@@ -329,8 +331,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${plugin.compiler.version}</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
           <compilerArgument>-proc:none</compilerArgument>
         </configuration>
       </plugin>
@@ -386,9 +388,17 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.17</version>
         <configuration>
+          <skip>true</skip>
+          <failOnViolation>false</failOnViolation>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+          <sourceDirectories>${basedir}/src/main/java,${basedir}/src/main/scala</sourceDirectories>
+          <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
           <configLocation>_tools/checkstyle.xml</configLocation>
-          <enableRSS>false</enableRSS>
+          <outputFile>${basedir}/target/checkstyle-output.xml</outputFile>
+          <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
+          <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
         </configuration>
         <executions>
           <execution>
@@ -744,7 +754,7 @@
     <profile>
       <id>scala-2.11</id>
       <properties>
-        <scala.version>2.11.7</scala.version>
+        <scala.version>2.11.8</scala.version>
         <scala.binary.version>2.11</scala.binary.version>
       </properties>
     </profile>
@@ -764,6 +774,13 @@
       <id>geode</id>
       <modules>
         <module>geode</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>integration</id>
+      <modules>
+        <module>zeppelin-integration</module>
       </modules>
     </profile>
 
@@ -930,7 +947,6 @@
             <excludes>
               <exclude>**/*.keywords</exclude>
               <exclude>reports/**</exclude>
-              <exclude>lib/**</exclude>
               <exclude>**/.idea/</exclude>
               <exclude>**/*.iml</exclude>
               <exclude>.git/</exclude>

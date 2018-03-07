@@ -30,16 +30,16 @@ public class FileSystemStorage {
 
   private static Logger LOGGER = LoggerFactory.getLogger(FileSystemStorage.class);
 
-  private static FileSystemStorage instance;
-
   private ZeppelinConfiguration zConf;
   private Configuration hadoopConf;
   private boolean isSecurityEnabled = false;
   private FileSystem fs;
 
-  private FileSystemStorage(ZeppelinConfiguration zConf) throws IOException {
+  public FileSystemStorage(ZeppelinConfiguration zConf, String path) throws IOException {
     this.zConf = zConf;
     this.hadoopConf = new Configuration();
+    // disable checksum for local file system. because interpreter.json may be updated by
+    // non-hadoop filesystem api
     this.hadoopConf.set("fs.file.impl", RawLocalFileSystem.class.getName());
     this.isSecurityEnabled = UserGroupInformation.isSecurityEnabled();
 
@@ -56,22 +56,28 @@ public class FileSystemStorage {
     }
 
     try {
-      this.fs = FileSystem.get(new URI(zConf.getNotebookDir()), this.hadoopConf);
-      LOGGER.info("Creating FileSystem: " + this.fs.getClass().getCanonicalName());
+      this.fs = FileSystem.get(new URI(path), this.hadoopConf);
     } catch (URISyntaxException e) {
       throw new IOException(e);
     }
   }
 
-  public static synchronized FileSystemStorage get(ZeppelinConfiguration zConf) throws IOException {
-    if (instance == null) {
-      instance = new FileSystemStorage(zConf);
-    }
-    return instance;
+  public FileSystem getFs() {
+    return fs;
   }
 
   public Path makeQualified(Path path) {
     return fs.makeQualified(path);
+  }
+
+  public boolean exists(final Path path) throws IOException {
+    return callHdfsOperation(new HdfsOperation<Boolean>() {
+
+      @Override
+      public Boolean call() throws IOException {
+        return fs.exists(path);
+      }
+    });
   }
 
   public void tryMkDir(final Path dir) throws IOException {
@@ -149,7 +155,6 @@ public class FileSystemStorage {
 
   public synchronized <T> T callHdfsOperation(final HdfsOperation<T> func) throws IOException {
     if (isSecurityEnabled) {
-      UserGroupInformation.getLoginUser().reloginFromKeytab();
       try {
         return UserGroupInformation.getCurrentUser().doAs(new PrivilegedExceptionAction<T>() {
           @Override

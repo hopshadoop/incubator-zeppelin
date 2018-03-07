@@ -89,6 +89,19 @@ public class SparkInterpreterLauncher extends ShellScriptLauncher {
         env.put(envName, envValue);
       }
     }
+
+    String keytab = zConf.getString(ZeppelinConfiguration.ConfVars.ZEPPELIN_SERVER_KERBEROS_KEYTAB);
+    String principal =
+        zConf.getString(ZeppelinConfiguration.ConfVars.ZEPPELIN_SERVER_KERBEROS_PRINCIPAL);
+
+    if (!StringUtils.isBlank(keytab) && !StringUtils.isBlank(principal)) {
+      env.put("ZEPPELIN_SERVER_KERBEROS_KEYTAB", keytab);
+      env.put("ZEPPELIN_SERVER_KERBEROS_PRINCIPAL", principal);
+      LOGGER.info("Run Spark under secure mode with keytab: " + keytab +
+          ", principal: " + principal);
+    } else {
+      LOGGER.info("Run Spark under non-secure mode as no keytab and principal is specified");
+    }
     LOGGER.debug("buildEnvFromProperties: " + env);
     return env;
 
@@ -148,7 +161,8 @@ public class SparkInterpreterLauncher extends ShellScriptLauncher {
 
     File sparkRPath = new File(sparkRBasePath, "sparkr.zip");
     if (sparkRPath.exists() && sparkRPath.isFile()) {
-      mergeSparkProperty(sparkProperties, "spark.yarn.dist.archives", sparkRPath.getAbsolutePath());
+      mergeSparkProperty(sparkProperties, "spark.yarn.dist.archives",
+          sparkRPath.getAbsolutePath() + "#sparkr");
     } else {
       LOGGER.warn("sparkr.zip is not found, SparkR may not work.");
     }
