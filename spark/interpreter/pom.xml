@@ -69,11 +69,11 @@
       <version>${project.version}</version>
     </dependency>
 
-    <dependency>
+    <!--<dependency>
       <groupId>org.apache.zeppelin</groupId>
       <artifactId>spark-scala-2.10</artifactId>
       <version>${project.version}</version>
-    </dependency>
+    </dependency>-->
 
     <dependency>
       <groupId>org.apache.zeppelin</groupId>

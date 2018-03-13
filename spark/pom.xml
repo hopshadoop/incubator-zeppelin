@@ -46,21 +46,21 @@
         <plugin.scala.version>2.15.2</plugin.scala.version>
         <!-- spark versions -->
         <spark.version>2.2.0</spark.version>
-        <py4j.version>0.10.4</py4j.version>
+        <py4j.version>0.10.6</py4j.version>
 
-        <spark.archive>spark-${spark.version}</spark.archive>
+        <spark.archive>spark-${spark.version}-hops</spark.archive>
         <spark.src.download.url>
-            http://d3kbcqa49mib13.cloudfront.net/${spark.archive}.tgz
+            https://github.com/hopshadoop/spark/archive/v${spark.version}-hops.tar.gz
         </spark.src.download.url>
         <spark.bin.download.url>
-            http://d3kbcqa49mib13.cloudfront.net/${spark.archive}-bin-without-hadoop.tgz
+            http://snurran.sics.se/hops/spark-${spark.version}-bin-without-hadoop-with-hive.tgz
         </spark.bin.download.url>
     </properties>
 
     <modules>
         <module>interpreter</module>
         <module>spark-scala-parent</module>
-        <module>scala-2.10</module>
+        <!--<module>scala-2.10</module>-->
         <module>scala-2.11</module>
         <module>spark-dependencies</module>
         <module>spark-shims</module>
@@ -209,7 +209,7 @@
             </activation>
             <properties>
                 <spark.version>2.2.0</spark.version>
-                <py4j.version>0.10.4</py4j.version>
+                <py4j.version>0.10.6</py4j.version>
             </properties>
         </profile>
 
@@ -217,7 +217,7 @@
             <id>spark-2.1</id>
             <properties>
                 <spark.version>2.1.0</spark.version>
-                <py4j.version>0.10.4</py4j.version>
+                <py4j.version>0.10.6</py4j.version>
             </properties>
         </profile>
 
