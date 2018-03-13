@@ -52,10 +52,10 @@
   <inceptionYear>2013</inceptionYear>
 
   <modules>
+    <module>interpreter-parent</module>
     <module>zeppelin-interpreter</module>
     <module>zeppelin-zengine</module>
     <module>zeppelin-display</module>
-    <module>spark-dependencies</module>
     <module>groovy</module>
     <module>spark</module>
     <module>markdown</module>
@@ -78,6 +78,7 @@
     <module>alluxio</module>
     <module>scio</module>
     <module>neo4j</module>
+    <module>sap</module>
     <module>zeppelin-web</module>
     <module>zeppelin-server</module>
     <module>zeppelin-jupyter</module>
@@ -86,6 +87,7 @@
 
   <properties>
     <!-- language versions -->
+    <java.version>1.7</java.version>
     <scala.version>2.10.5</scala.version>
     <scala.binary.version>2.10</scala.binary.version>
     <scalatest.version>2.2.4</scalatest.version>
@@ -329,9 +331,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${plugin.compiler.version}</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-          <compilerArgument>-proc:none</compilerArgument>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
         </configuration>
       </plugin>
 
@@ -744,7 +745,7 @@
     <profile>
       <id>scala-2.11</id>
       <properties>
-        <scala.version>2.11.7</scala.version>
+        <scala.version>2.11.8</scala.version>
         <scala.binary.version>2.11</scala.binary.version>
       </properties>
     </profile>
@@ -764,6 +765,13 @@
       <id>geode</id>
       <modules>
         <module>geode</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>integration</id>
+      <modules>
+        <module>zeppelin-integration</module>
       </modules>
     </profile>
 
