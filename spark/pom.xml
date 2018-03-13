@@ -60,7 +60,6 @@
     <modules>
         <module>interpreter</module>
         <module>spark-scala-parent</module>
-        <module>scala-2.10</module>
         <module>scala-2.11</module>
         <module>spark-dependencies</module>
         <module>spark-shims</module>
