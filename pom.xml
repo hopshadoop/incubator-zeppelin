@@ -65,7 +65,7 @@
     <module>hbase</module>
     <module>pig</module>
     <module>jdbc</module>
-    <module>hops-hive</module>
+    <!--<module>hops-hive</module>-->
     <module>file</module>
     <module>flink</module>
     <module>ignite</module>

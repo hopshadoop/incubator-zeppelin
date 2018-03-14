@@ -342,13 +342,13 @@
         </exclusions>
       </dependency>
 
-    <dependency>
+    <!--<dependency>
       <groupId>org.apache.zeppelin</groupId>
       <artifactId>zeppelin-zengine</artifactId>
       <version>${project.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
-    </dependency>
+    </dependency>-->
 
   </dependencies>
   <build>
