@@ -88,6 +88,7 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>zeppelin-zengine</artifactId>
       <version>${project.version}</version>
+      <scope>test</scope>
       <exclusions>
         <exclusion>
           <groupId>com.fasterxml.jackson.core</groupId>
