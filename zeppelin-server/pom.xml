@@ -22,14 +22,14 @@
   <parent>
     <artifactId>zeppelin</artifactId>
     <groupId>org.apache.zeppelin</groupId>
-    <version>0.8.0-SNAPSHOT</version>
+    <version>0.9.0-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
   <groupId>org.apache.zeppelin</groupId>
   <artifactId>zeppelin-server</artifactId>
   <packaging>jar</packaging>
-  <version>0.8.0-SNAPSHOT</version>
+  <version>0.9.0-SNAPSHOT</version>
   <name>Zeppelin: Server</name>
 
   <properties>
@@ -341,15 +341,6 @@
           </exclusion>
         </exclusions>
       </dependency>
-
-    <!--<dependency>
-      <groupId>org.apache.zeppelin</groupId>
-      <artifactId>zeppelin-zengine</artifactId>
-      <version>${project.version}</version>
-      <classifier>tests</classifier>
-      <scope>test</scope>
-    </dependency>-->
-
   </dependencies>
   <build>
     <plugins>
@@ -453,6 +444,12 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+
     </plugins>
   </build>
 
