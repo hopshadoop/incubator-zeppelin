@@ -82,13 +82,12 @@
     </dependencies>
   </dependencyManagement>
 
-  <dependencies>
-
+  <dependencies>   
+ 
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>zeppelin-zengine</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
       <exclusions>
         <exclusion>
           <groupId>com.fasterxml.jackson.core</groupId>
@@ -376,7 +375,7 @@
       </plugin>
 
 
-      <plugin>
+<!--      <plugin>
         <groupId>org.scala-tools</groupId>
         <artifactId>maven-scala-plugin</artifactId>
         <version>${plugin.scala.version}</version>
@@ -387,7 +386,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin>-->
 
       <plugin>
         <groupId>org.scalatest</groupId>

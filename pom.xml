@@ -79,6 +79,7 @@
     <module>scio</module>
     <module>neo4j</module>
     <module>sap</module>
+    <module>r</module>
     <module>zeppelin-web</module>
     <module>zeppelin-server</module>
     <module>zeppelin-jupyter</module>

@@ -77,7 +77,7 @@
 
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>zeppelin-spark_${scala.binary.version}</artifactId>
+      <artifactId>spark-interpreter</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
@@ -149,13 +149,6 @@
       <artifactId>jsoup</artifactId>
       <version>${jsoup.version}</version>
       <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.spark</groupId>
-      <artifactId>spark-core_${scala.binary.version}</artifactId>
-      <version>${spark.version}</version>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -292,6 +285,7 @@
       <plugin>
         <groupId>org.scala-tools</groupId>
         <artifactId>maven-scala-plugin</artifactId>
+        <version>2.15.2</version>
         <executions>
           <execution>
             <id>compile</id>
