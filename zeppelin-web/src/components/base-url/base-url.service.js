@@ -54,7 +54,7 @@ function BaseUrlService() {
 
   this.getBase = function() {
     return location.protocol + '//' + location.hostname + ':' + this.getPort() +
-      '/hopsworks-api/zeppelin/ws/' + getCookie('projectID');
+      '/hopsworks-api/api/zeppelin/' + getCookie('projectID');
   };
 
   this.getRestApiBase = function() {
