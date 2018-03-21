@@ -44,6 +44,7 @@ import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.exec.environment.EnvironmentUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.zeppelin.display.GUI;
 import org.apache.zeppelin.interpreter.*;
 import org.apache.zeppelin.interpreter.InterpreterResult.Code;
@@ -228,37 +229,28 @@ public class PythonInterpreter extends Interpreter implements ExecuteResultHandl
         getInterpreterGroup().getInterpreterHookRegistry(),
         Integer.parseInt(getProperty("zeppelin.python.maxResult", "1000")));
     if (getProperty("zeppelin.python.useIPython", "true").equals("true") &&
-      iPythonInterpreter.checkIPythonPrerequisite()) {
+        StringUtils.isEmpty(iPythonInterpreter.checkIPythonPrerequisite(getPythonBindPath()))) {
       try {
         iPythonInterpreter.open();
-        if (InterpreterContext.get() != null) {
-          InterpreterContext.get().out.write(("IPython is available, " +
-              "use IPython for PythonInterpreter\n")
-              .getBytes());
-        }
-        LOG.info("Use IPythonInterpreter to replace PythonInterpreter");
+        LOG.info("IPython is available, Use IPythonInterpreter to replace PythonInterpreter");
         return;
       } catch (Exception e) {
         iPythonInterpreter = null;
+        LOG.warn("Fail to open IPythonInterpreter", e);
       }
     }
-    // reset iPythonInterpreter to null
+
+    // reset iPythonInterpreter to null as it is not available
     iPythonInterpreter = null;
-
-    try {
-      if (InterpreterContext.get() != null) {
-        InterpreterContext.get().out.write(("IPython is not available, " +
-            "use the native PythonInterpreter\n")
-            .getBytes());
-      }
-    } catch (IOException e) {
-      LOG.warn("Fail to write InterpreterOutput", e.getMessage());
-    }
-
+    LOG.info("IPython is not available, use the native PythonInterpreter");
     // Add matplotlib display hook
     InterpreterGroup intpGroup = getInterpreterGroup();
     if (intpGroup != null && intpGroup.getInterpreterHookRegistry() != null) {
-      registerHook(HookType.POST_EXEC_DEV, "__zeppelin__._displayhook()");
+      try {
+        registerHook(HookType.POST_EXEC_DEV.getName(), "__zeppelin__._displayhook()");
+      } catch (InvalidHookException e) {
+        throw new InterpreterException(e);
+      }
     }
     // Add matplotlib display hook
     try {
@@ -284,7 +276,7 @@ public class PythonInterpreter extends Interpreter implements ExecuteResultHandl
   }
 
   @Override
-  public void close() {
+  public void close() throws InterpreterException {
     if (iPythonInterpreter != null) {
       iPythonInterpreter.close();
       return;
@@ -387,6 +379,7 @@ public class PythonInterpreter extends Interpreter implements ExecuteResultHandl
 
     zeppelinContext.setGui(context.getGui());
     zeppelinContext.setNoteGui(context.getNoteGui());
+    zeppelinContext.setInterpreterContext(context);
 
     if (!pythonscriptRunning) {
       return new InterpreterResult(Code.ERROR, "python process not running"
@@ -462,7 +455,7 @@ public class PythonInterpreter extends Interpreter implements ExecuteResultHandl
     return context;
   }
 
-  public void interrupt() throws IOException {
+  public void interrupt() throws IOException, InterpreterException {
     if (pythonPid > -1) {
       logger.info("Sending SIGINT signal to PID : " + pythonPid);
       Runtime.getRuntime().exec("kill -SIGINT " + pythonPid);
@@ -473,7 +466,7 @@ public class PythonInterpreter extends Interpreter implements ExecuteResultHandl
   }
 
   @Override
-  public void cancel(InterpreterContext context) {
+  public void cancel(InterpreterContext context) throws InterpreterException {
     if (iPythonInterpreter != null) {
       iPythonInterpreter.cancel(context);
     }
@@ -490,7 +483,7 @@ public class PythonInterpreter extends Interpreter implements ExecuteResultHandl
   }
 
   @Override
-  public int getProgress(InterpreterContext context) {
+  public int getProgress(InterpreterContext context) throws InterpreterException {
     if (iPythonInterpreter != null) {
       return iPythonInterpreter.getProgress(context);
     }
