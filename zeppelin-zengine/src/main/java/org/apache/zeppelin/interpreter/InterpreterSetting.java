@@ -712,8 +712,7 @@ public class InterpreterSetting {
 
   List<Interpreter> getOrCreateSession(String user, String noteId) {
     ManagedInterpreterGroup interpreterGroup = getOrCreateInterpreterGroup(user, noteId);
-    Preconditions.checkNotNull(interpreterGroup, "No InterpreterGroup existed for user {}, " +
-        "noteId {}", user, noteId);
+    Preconditions.checkNotNull(interpreterGroup, "No InterpreterGroup existed for user " + user + ", noteId " + noteId);
     String sessionId = getInterpreterSessionId(user, noteId);
     return interpreterGroup.getOrCreateSession(user, sessionId);
   }

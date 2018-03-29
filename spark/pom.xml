@@ -50,17 +50,18 @@
 
         <spark.archive>spark-${spark.version}</spark.archive>
         <spark.src.download.url>
-            http://d3kbcqa49mib13.cloudfront.net/${spark.archive}.tgz
+            <!--http://d3kbcqa49mib13.cloudfront.net/${spark.archive}.tgz-->
+            http://apache.mirrors.spacedump.net/spark/spark-2.3.0/spark-2.3.0.tgz
         </spark.src.download.url>
         <spark.bin.download.url>
-            http://d3kbcqa49mib13.cloudfront.net/${spark.archive}-bin-without-hadoop.tgz
+            <!--http://d3kbcqa49mib13.cloudfront.net/${spark.archive}-bin-without-hadoop.tgz-->
+            http://apache.mirrors.spacedump.net/spark/spark-2.3.0/spark-2.3.0-bin-without-hadoop.tgz
         </spark.bin.download.url>
     </properties>
 
     <modules>
         <module>interpreter</module>
         <module>spark-scala-parent</module>
-        <module>scala-2.10</module>
         <module>scala-2.11</module>
         <module>spark-dependencies</module>
         <module>spark-shims</module>
